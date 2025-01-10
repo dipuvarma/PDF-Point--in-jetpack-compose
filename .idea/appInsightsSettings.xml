@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="com.example.pdfpoint" />
+                  <option name="mobileSdkAppId" value="1:217501637576:android:fdd10193e2d18f7b0c3efd" />
+                  <option name="projectId" value="pdf-point" />
+                  <option name="projectNumber" value="217501637576" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />
