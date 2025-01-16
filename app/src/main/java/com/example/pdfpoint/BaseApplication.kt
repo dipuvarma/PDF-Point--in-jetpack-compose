@@ -2,6 +2,7 @@ package com.example.pdfpoint
 
 import android.app.Application
 import com.example.pdfpoint.koin.appModule
+import com.example.pdfpoint.koin.viewModelModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -12,8 +13,7 @@ class BaseApplication : Application() {
         startKoin {
             androidLogger()
             androidContext(this@BaseApplication)
-            modules(appModule)
-
+            modules(appModule, viewModelModule)
         }
     }
 }
