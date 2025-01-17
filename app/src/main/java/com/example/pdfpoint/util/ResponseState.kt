@@ -1,4 +1,4 @@
-package com.example.pdfpoint.ui
+package com.example.pdfpoint.util
 
 sealed class ResponseState<out T> {
     data class Success<out T>(val data: T) : ResponseState<T>()

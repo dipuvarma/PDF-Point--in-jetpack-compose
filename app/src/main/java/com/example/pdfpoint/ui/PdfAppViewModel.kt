@@ -4,9 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.pdfpoint.data.model.BooksModel
 import com.example.pdfpoint.data.repo.AppRepository
-import com.example.pdfpoint.koin.viewModelModule
+import com.example.pdfpoint.util.ResponseState
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -20,6 +19,7 @@ class PdfAppViewModel @Inject constructor(
     private val _getAllBookState = MutableStateFlow(GetAllBookState())
     val getAllBookState: StateFlow<GetAllBookState> = _getAllBookState.asStateFlow()
 
+
     fun getAllBooks(){
         viewModelScope.launch(Dispatchers.IO){
             appRepository.getAllBooks()
@@ -27,6 +27,7 @@ class PdfAppViewModel @Inject constructor(
                     when(it){
                         is ResponseState.Error -> {
                             _getAllBookState.value = GetAllBookState(
+                                isLoading = false,
                                 error = it.message.toString()
                             )
                         }
@@ -34,10 +35,10 @@ class PdfAppViewModel @Inject constructor(
                             _getAllBookState.value = GetAllBookState(
                                 isLoading = true
                             )
-
                         }
                         is ResponseState.Success -> {
                             _getAllBookState.value = GetAllBookState(
+                                isLoading = false,
                                 books = it.data,
                             )
                         }

@@ -12,6 +12,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
@@ -30,16 +31,19 @@ fun HomeScreenUI(
     val state = viewModel.getAllBookState.collectAsState()
     val data = state.value.books ?: emptyList()
 
+    LaunchedEffect(key1 = Unit) {
+        viewModel.getAllBooks()
+    }
     when {
         state.value.isLoading -> {
             Text(text = "Loading")
         }
 
-        state.value.error.isNotEmpty() -> {
-            Text(text = state.value.error)
+        state.value.error == null -> {
+            Text(text = "Error")
         }
 
-        else -> {
+        state.value.books != null -> {
             Scaffold(
                 modifier = Modifier
                     .fillMaxSize()
@@ -69,7 +73,6 @@ fun HomeScreenUI(
                 }
             }
         }
-
     }
 }
 

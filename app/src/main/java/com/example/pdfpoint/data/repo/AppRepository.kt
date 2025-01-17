@@ -1,8 +1,7 @@
 package com.example.pdfpoint.data.repo
 
 import com.example.pdfpoint.data.model.BooksModel
-import com.example.pdfpoint.data.remote.FirebaseInstance
-import com.example.pdfpoint.ui.ResponseState
+import com.example.pdfpoint.util.ResponseState
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -35,12 +34,10 @@ class AppRepository @Inject constructor(
 
         }
 
-        firebaseDatabase.reference.child("Books")
-            .addValueEventListener(valueEvent)
+        firebaseDatabase.reference.child("Books").addValueEventListener(valueEvent)
 
         awaitClose {
-            firebaseDatabase.reference
-                .removeEventListener(valueEvent)
+            firebaseDatabase.reference.removeEventListener(valueEvent)
             close()
         }
     }
