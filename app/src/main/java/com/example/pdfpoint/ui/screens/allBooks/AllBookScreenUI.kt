@@ -1,13 +1,10 @@
-package com.example.pdfpoint.ui.screens
+package com.example.pdfpoint.ui.screens.allBooks
 
-import android.util.Log
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -19,15 +16,11 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import com.example.pdfpoint.ui.PdfAppViewModel
 import org.koin.androidx.compose.koinViewModel
-import kotlin.math.log
 
-
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreenUI(
+fun AllBookScreenUI(
     viewModel: PdfAppViewModel = koinViewModel(),
 ) {
-
     val state = viewModel.getAllBookState.collectAsState()
     val data = state.value.books ?: emptyList()
 
@@ -55,7 +48,7 @@ fun HomeScreenUI(
                         .padding(innerPadding)
                 ) {
                     Text(
-                        text = "Books Categories",
+                        text = "All Books",
                         style = TextStyle(
                             fontSize = MaterialTheme.typography.titleLarge.fontSize,
                         )
@@ -66,8 +59,13 @@ fun HomeScreenUI(
                             .padding(top = 12.dp)
                     ) {
                         items(data) {
-                            Text(text = it.BookName)
-                            Text(text = it.BookAuthor)
+                            BooksCard(
+                                imageUrl = it.BookImageUrl,
+                                bookName = it.BookName,
+                                bookAuthor = it.BookAuthor,
+                                bookDescription = it.BookDescription,
+                                bookUrl = it.BookUrl
+                            )
                         }
                     }
                 }
@@ -75,6 +73,8 @@ fun HomeScreenUI(
         }
     }
 }
+
+
 
 
 

@@ -20,22 +20,24 @@ class PdfAppViewModel @Inject constructor(
     val getAllBookState: StateFlow<GetAllBookState> = _getAllBookState.asStateFlow()
 
 
-    fun getAllBooks(){
-        viewModelScope.launch(Dispatchers.IO){
+    fun getAllBooks() {
+        viewModelScope.launch(Dispatchers.IO) {
             appRepository.getAllBooks()
-                .collect{
-                    when(it){
+                .collect {
+                    when (it) {
                         is ResponseState.Error -> {
                             _getAllBookState.value = GetAllBookState(
                                 isLoading = false,
                                 error = it.message.toString()
                             )
                         }
+
                         ResponseState.Loading -> {
                             _getAllBookState.value = GetAllBookState(
                                 isLoading = true
                             )
                         }
+
                         is ResponseState.Success -> {
                             _getAllBookState.value = GetAllBookState(
                                 isLoading = false,
@@ -45,9 +47,7 @@ class PdfAppViewModel @Inject constructor(
                     }
                 }
         }
-
     }
-
 }
 
 data class GetAllBookState(

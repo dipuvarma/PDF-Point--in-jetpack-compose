@@ -5,13 +5,10 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.example.pdfpoint.ui.screens.HomeScreenUI
+import com.example.pdfpoint.ui.screens.allBooks.AllBookScreenUI
+import com.example.pdfpoint.ui.screens.home.HomeScreenUI
 import com.example.pdfpoint.ui.theme.PDFPointTheme
 
 class MainActivity : ComponentActivity() {
@@ -21,7 +18,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             PDFPointTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    HomeScreenUI()
+                    AllBookScreenUI()
                 }
             }
         }
