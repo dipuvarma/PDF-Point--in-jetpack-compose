@@ -1,5 +1,6 @@
 package com.example.pdfpoint.data.repo
 
+import com.example.pdfpoint.data.model.BookCategories
 import com.example.pdfpoint.data.model.BooksModel
 import com.example.pdfpoint.util.ResponseState
 import com.google.firebase.database.DataSnapshot
@@ -35,6 +36,32 @@ class AppRepository @Inject constructor(
         }
 
         firebaseDatabase.reference.child("Books").addValueEventListener(valueEvent)
+
+        awaitClose {
+            firebaseDatabase.reference.removeEventListener(valueEvent)
+            close()
+        }
+    }
+
+    suspend fun getAllCategory(): Flow<ResponseState<List<BookCategories>>> = callbackFlow {
+        trySend(ResponseState.Loading)
+
+        val valueEvent = object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                var items: List<BookCategories> = emptyList()
+                items = snapshot.children.map {
+                    it.getValue<BookCategories>()!!
+                }
+                trySend(ResponseState.Success(items))
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                trySend(ResponseState.Error(error.toException()))
+            }
+
+        }
+
+        firebaseDatabase.reference.child("BooksCategories").addValueEventListener(valueEvent)
 
         awaitClose {
             firebaseDatabase.reference.removeEventListener(valueEvent)
