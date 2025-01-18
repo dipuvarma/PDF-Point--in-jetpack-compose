@@ -1,4 +1,4 @@
-package com.example.pdfpoint.ui.screens.home
+package com.example.pdfpoint.ui.screens.bookBycategory
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,35 +14,28 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import com.example.pdfpoint.ui.PdfAppViewModel
-import com.example.pdfpoint.ui.navigation.AllBooksByCategoryScreen
-import org.koin.androidx.compose.koinViewModel
-
+import com.example.pdfpoint.ui.screens.allBooks.BooksCard
 
 @Composable
-fun HomeScreenUI(
-    viewModel: PdfAppViewModel,
-    navController: NavController
-) {
+fun AllBooksByCategory(category: String, viewModel: PdfAppViewModel) {
 
-    val uiState = viewModel.getAllCategoryState.collectAsState()
-    val data = uiState.value.books ?: emptyList()
+    val state = viewModel.getBooksByCategoryState.collectAsState()
+    val data = state.value.books ?: emptyList()
 
     LaunchedEffect(key1 = Unit) {
-        viewModel.getAllCategory()
+        viewModel.getBooksByCategory(category)
     }
-
     when {
-        uiState.value.isLoading -> {
+        state.value.isLoading -> {
             Text(text = "Loading")
         }
 
-        uiState.value.error == null -> {
+        state.value.error == null -> {
             Text(text = "Error")
         }
 
-        uiState.value.books != null -> {
+        state.value.books != null -> {
             Scaffold(
                 modifier = Modifier
                     .fillMaxSize()
@@ -54,7 +47,7 @@ fun HomeScreenUI(
                         .padding(innerPadding)
                 ) {
                     Text(
-                        text = "Books Categories",
+                        text = "All Books Of $category",
                         style = TextStyle(
                             fontSize = MaterialTheme.typography.titleLarge.fontSize,
                         )
@@ -65,10 +58,12 @@ fun HomeScreenUI(
                             .padding(top = 12.dp)
                     ) {
                         items(data) {
-                            CategoriesCard(
-                                categoryImage = it.CategoryImageUrl,
-                                categoryTitle = it.CategoryName,
-                                onClick = {navController.navigate(AllBooksByCategoryScreen(category = it.CategoryName))}
+                            BooksCard(
+                                imageUrl = it.BookImageUrl,
+                                bookName = it.BookName,
+                                bookAuthor = it.BookAuthor,
+                                bookDescription = it.BookDescription,
+                                bookUrl = it.BookUrl
                             )
                         }
                     }
@@ -77,9 +72,3 @@ fun HomeScreenUI(
         }
     }
 }
-
-
-
-
-
-

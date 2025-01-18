@@ -8,3 +8,8 @@ object HomeScreen
 
 @Serializable
 object AllBookScreen
+
+@Serializable
+data class AllBooksByCategoryScreen(
+    val category: String,
+)
