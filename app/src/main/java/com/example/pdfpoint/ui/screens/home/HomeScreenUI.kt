@@ -14,16 +14,13 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import com.example.pdfpoint.ui.PdfAppViewModel
-import com.example.pdfpoint.ui.navigation.AllBooksByCategoryScreen
 import org.koin.androidx.compose.koinViewModel
 
 
 @Composable
 fun HomeScreenUI(
-    viewModel: PdfAppViewModel,
-    navController: NavController
+    viewModel: PdfAppViewModel = koinViewModel(),
 ) {
 
     val uiState = viewModel.getAllCategoryState.collectAsState()
@@ -33,15 +30,13 @@ fun HomeScreenUI(
         viewModel.getAllCategory()
     }
 
-    when {
+    when{
         uiState.value.isLoading -> {
             Text(text = "Loading")
         }
-
         uiState.value.error == null -> {
             Text(text = "Error")
         }
-
         uiState.value.books != null -> {
             Scaffold(
                 modifier = Modifier
@@ -67,8 +62,7 @@ fun HomeScreenUI(
                         items(data) {
                             CategoriesCard(
                                 categoryImage = it.CategoryImageUrl,
-                                categoryTitle = it.CategoryName,
-                                onClick = {navController.navigate(AllBooksByCategoryScreen(category = it.CategoryName))}
+                                categoryTitle = it.CategoryName
                             )
                         }
                     }

@@ -68,36 +68,4 @@ class AppRepository @Inject constructor(
             close()
         }
     }
-
-
-    suspend fun getBooksByCategory(category: String): Flow<ResponseState<List<BooksModel>>> =
-        callbackFlow {
-            trySend(ResponseState.Loading)
-
-            val valueEvent = object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    var items: List<BooksModel> = emptyList()
-
-                    items = snapshot.children.filter {
-                        it.getValue<BooksModel>()!!.CategoryName == category
-                    }.map {
-                        it.getValue<BooksModel>()!!
-                    }
-
-                    trySend(ResponseState.Success(items))
-                }
-
-                override fun onCancelled(error: DatabaseError) {
-                    trySend(ResponseState.Error(error.toException()))
-                }
-
-            }
-
-            firebaseDatabase.reference.child("Books").addValueEventListener(valueEvent)
-
-            awaitClose {
-                firebaseDatabase.reference.removeEventListener(valueEvent)
-                close()
-            }
-        }
 }

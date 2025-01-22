@@ -23,9 +23,6 @@ class PdfAppViewModel @Inject constructor(
     private val _getAllCategoryState = MutableStateFlow(GetAllCategoryState())
     val getAllCategoryState = _getAllCategoryState.asStateFlow()
 
-    private val _getBooksByCategoryState = MutableStateFlow(GetBooksByCategory())
-    val getBooksByCategoryState = _getBooksByCategoryState.asStateFlow()
-
 
     fun getAllBooks() {
         viewModelScope.launch(Dispatchers.IO) {
@@ -83,35 +80,6 @@ class PdfAppViewModel @Inject constructor(
             }
         }
     }
-
-    fun getBooksByCategory(category: String) {
-        viewModelScope.launch(Dispatchers.IO) {
-            appRepository.getBooksByCategory(category).collect {
-                when (it) {
-                    is ResponseState.Error -> {
-                        _getBooksByCategoryState.value = GetBooksByCategory(
-                            isLoading = false,
-                            error = it.message.toString()
-                        )
-                    }
-
-                    is ResponseState.Success -> {
-                        _getBooksByCategoryState.value = GetBooksByCategory(
-                            isLoading = false,
-                            books = it.data
-                        )
-
-                    }
-
-                    ResponseState.Loading -> {
-                        _getBooksByCategoryState.value = GetBooksByCategory(
-                            isLoading = true
-                        )
-                    }
-                }
-            }
-        }
-    }
 }
 
 
@@ -124,11 +92,5 @@ data class GetAllBookState(
 data class GetAllCategoryState(
     val isLoading: Boolean = false,
     val books: List<BookCategories> = emptyList(),
-    val error: String = "",
-)
-
-data class GetBooksByCategory(
-    val isLoading: Boolean = false,
-    val books: List<BooksModel> = emptyList(),
     val error: String = "",
 )
