@@ -4,7 +4,8 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.google.gms.google.services)
     kotlin("plugin.serialization") version "2.1.0"
-
+    id("kotlin-kapt")
+    alias(libs.plugins.dagger.hilt.android)
 }
 
 android {
@@ -52,16 +53,24 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
-
+    /* For Firebase */
     implementation(libs.firebase.database)
-
+    /* For Coil */
     implementation(libs.coil.compose)
+    /* For Serialization */
     implementation(libs.kotlinx.serialization.json)
-
+    /* For Navigation */
     implementation(libs.androidx.navigation.compose)
+    /* For Icons */
     implementation(libs.androidx.material.icons.extended.android)
 
+    /* For Google Fonts */
     implementation(libs.androidx.ui.text.google.fonts)
+
+    /* For Dagger Hilt */
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.android.compiler)
+    implementation(libs.androidx.hilt.navigation.compose)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
