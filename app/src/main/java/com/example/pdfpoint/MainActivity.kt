@@ -11,6 +11,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.ui.Modifier
+import com.example.pdfpoint.presentation.comp.CategoryCardComp
 import com.example.pdfpoint.ui.theme.PDFPointTheme
 
 class MainActivity : ComponentActivity() {
@@ -18,13 +19,10 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            PDFPointTheme {
+            PDFPointTheme(dynamicColor = false) {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     Surface(modifier = Modifier.padding(innerPadding)) {
-                        Text(
-                            text = "Dipu Verma",
-                            style = MaterialTheme.typography.titleLarge
-                        )
+                        CategoryCardComp()
                     }
                 }
             }
