@@ -1,17 +1,14 @@
 package com.example.pdfpoint.presentation.screens
 
 import android.content.Context
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Surface
@@ -28,6 +25,7 @@ import com.example.pdfpoint.presentation.navigation.AllBook
 import com.example.pdfpoint.presentation.navigation.Category
 import com.example.pdfpoint.ui.theme.PDFPointTheme
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun HomeScreen(
     context: Context,
@@ -46,12 +44,11 @@ fun HomeScreen(
             HeadingText(
                 title = context.getString(R.string.popular_books),
                 subtitle = context.getString(R.string.show_all),
-                onClick = {navController.navigate(AllBook.route) }
+                onClick = { navController.navigate(AllBook.route) }
             )
             Spacer(Modifier.height(8.dp))
             LazyRow(
-                modifier = Modifier
-                    .fillMaxWidth()
+                modifier = Modifier.fillMaxWidth()
             ) {
                 items(10) {
                     PopularCardComp(
@@ -66,36 +63,36 @@ fun HomeScreen(
         Spacer(Modifier.height(16.dp))
 
         // Categories Section
-        Column() {
+        Column {
             HeadingText(
                 title = context.getString(R.string.categories),
                 subtitle = context.getString(R.string.show_all),
-                onClick = {navController.navigate(Category.route) }
+                onClick = { navController.navigate(Category.route) }
             )
             Spacer(Modifier.height(8.dp))
 
-            // Wrap LazyHorizontalGrid in a Box to constrain its height
-            Box(
+            FlowRow(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .heightIn(min = 200.dp, max = 400.dp) // Set min and max height constraints
+                    .fillMaxWidth(),
+                maxItemsInEachRow = 2,
+                horizontalArrangement = Arrangement.spacedBy(16.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                LazyHorizontalGrid(
-                    rows = GridCells.Fixed(3),
-                    modifier = Modifier.fillMaxSize() // Fill the available height in the Box
-                ) {
-                    items(6) {
-                        CategoryCardComp(
-                            categoryImage = R.drawable.placeholder_news,
-                            categoryName = "Category",
-                            modifier = Modifier.padding(end = 16.dp, bottom = 16.dp)
-                        )
-                    }
+                repeat(6) {
+                    CategoryCardComp(
+                        categoryImage = R.drawable.placeholder_news,
+                        categoryName = "Category",
+                        modifier = Modifier
+                            .weight(1f)
+                            .fillMaxWidth(0.5f)
+                    )
                 }
             }
         }
     }
 }
+
+
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
