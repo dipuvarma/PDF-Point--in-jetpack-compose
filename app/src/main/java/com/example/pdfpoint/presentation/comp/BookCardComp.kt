@@ -48,9 +48,9 @@ fun BookCardComp(
             // Book thumbnail component
             BookComp(
                 cardWidth = 80.dp, // Reduced size for better proportions
-                cardHeight = 110.dp,
+                cardHeight = 100.dp,
                 imageWidth = 60.dp,
-                imageHeight = 90.dp
+                imageHeight = 80.dp
             )
             Spacer(Modifier.width(12.dp)) // Refined spacing between thumbnail and text
 
@@ -61,7 +61,7 @@ fun BookCardComp(
             ) {
                 Text(
                     text = bookName,
-                    style = MaterialTheme.typography.titleLarge.copy(
+                    style = MaterialTheme.typography.titleMedium.copy(
                         color = MaterialTheme.colorScheme.onBackground, // Better contrast
                         fontWeight = FontWeight.Bold // Subtle weight adjustment
                     ),
@@ -71,7 +71,7 @@ fun BookCardComp(
                 Spacer(Modifier.height(2.dp)) // Add slight spacing between book name and author
                 Text(
                     text = authorName,
-                    style = MaterialTheme.typography.bodySmall.copy(
+                    style = MaterialTheme.typography.labelSmall.copy(
                         color = MaterialTheme.colorScheme.secondary.copy(alpha = 0.6f),
                         fontWeight = FontWeight.Normal// Softer color for author
                     ),

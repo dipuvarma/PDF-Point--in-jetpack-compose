@@ -45,7 +45,7 @@ fun BookComp(
                 )
                 .padding(
                     vertical = 8.dp,
-                    horizontal = 16.dp
+                    horizontal = 12.dp
                 ),
             shape = RoundedCornerShape(5.dp),
             shadowElevation = 2.dp
