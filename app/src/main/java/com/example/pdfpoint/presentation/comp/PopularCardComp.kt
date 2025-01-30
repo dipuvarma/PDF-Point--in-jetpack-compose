@@ -23,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.example.pdfpoint.R
 
 @Composable
 fun PopularCardComp(
@@ -43,8 +44,7 @@ fun PopularCardComp(
         BookComp(
             cardWidth = 150.dp,
             cardHeight = 200.dp,
-            imageWidth = 100.dp,
-            imageHeight = 150.dp
+            image = R.drawable.fairy_tales
         )
         Spacer(Modifier.height(6.dp)) // Spacing between image and text
         // Category name

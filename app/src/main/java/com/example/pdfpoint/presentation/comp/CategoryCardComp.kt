@@ -2,8 +2,11 @@ package com.example.pdfpoint.presentation.comp
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,6 +16,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.outlined.FavoriteBorder
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -40,47 +48,37 @@ fun CategoryCardComp(
     categoryName: String,
     categoryImage: Int
 ) {
-    Surface(
-        modifier = modifier.size(150.dp), // Size of the card
-        shape = RoundedCornerShape(16.dp), // Rounded corners
-        color = MaterialTheme.colorScheme.surface, // Background color from Material 3
-        tonalElevation = 4.dp // Optional: Elevation for tonal effects
+    Column(
+        modifier = modifier
+            .width(150.dp),
+        verticalArrangement = Arrangement.Center
     ) {
-        Box {
-            // Image with rounded corners
-            Image(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .clip(RoundedCornerShape(16.dp)), // Clip the image to match rounded corners
-                painter = painterResource(id = categoryImage),
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
-            )
-
-            // Semi-transparent overlay using Material color
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(Color.Black.copy(alpha = 0.6f)) // Semi-transparent overlay
-            )
-
-            // Centered text
+        // Replace with an actual image
+        BookComp(
+            cardWidth = 150.dp,
+            cardHeight = 150.dp,
+            image = categoryImage
+        )
+        Spacer(Modifier.height(6.dp)) // Spacing between image and text
+        // Category name
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
             Text(
-                modifier = Modifier
-                    .align(Alignment.Center)
-                    .padding(horizontal = 16.dp, vertical = 8.dp),
+                modifier = Modifier.width(105.dp),
                 text = categoryName,
                 style = MaterialTheme.typography.titleMedium.copy(
-                    color = MaterialTheme.colorScheme.onSurface, // Text color for contrast
+                    color = MaterialTheme.colorScheme.primary,
                     fontWeight = FontWeight.Bold
                 ),
-                maxLines = 1, // Limit text to one line
-                overflow = TextOverflow.Ellipsis // Truncate text if it's too long
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis, // Ensure text doesn't overflow
             )
         }
     }
 }
-
 
 
 @Preview(showBackground = true, showSystemUi = true)

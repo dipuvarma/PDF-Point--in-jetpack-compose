@@ -27,6 +27,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.pdfpoint.ui.theme.PDFPointTheme
+import com.example.pdfpoint.R
 
 @Composable
 fun BookCardComp(
@@ -49,8 +50,7 @@ fun BookCardComp(
             BookComp(
                 cardWidth = 80.dp, // Reduced size for better proportions
                 cardHeight = 100.dp,
-                imageWidth = 60.dp,
-                imageHeight = 80.dp
+                image = R.drawable.fairy_tales
             )
             Spacer(Modifier.width(12.dp)) // Refined spacing between thumbnail and text
 
