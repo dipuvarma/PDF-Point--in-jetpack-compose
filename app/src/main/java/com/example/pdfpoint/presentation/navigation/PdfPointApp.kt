@@ -68,7 +68,7 @@ fun PdfPointApp() {
 
         NavHost(
             navController = navController,
-            startDestination = Home.route,
+            startDestination = EditProfile.route,
             modifier = Modifier.padding(innerPadding),
         ) {
             composable(Home.route) {

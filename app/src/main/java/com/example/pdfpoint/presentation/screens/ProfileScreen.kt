@@ -34,6 +34,7 @@ import com.example.pdfpoint.presentation.comp.ProfileTextComp
 @Preview(showSystemUi = true)
 @Composable
 fun ProfileScreen(modifier: Modifier = Modifier) {
+
     Box(
         modifier = Modifier
             .fillMaxSize()

@@ -6,5 +6,11 @@
     <string name="categories">Categories</string>
     <string name="show_all">Show All</string>
 
+    <!--For EditProfileScreen Content-->
+    <string name="edit_title">Complete Your Profile</string>
+    <string name="edit_des">Don\'t worry, only you can see personal data. No one else able to see it.</string>
+    <string name="edit_btn">Complete Profile</string>
+
+
 
 </resources>
