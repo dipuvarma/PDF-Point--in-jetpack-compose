@@ -23,7 +23,7 @@ fun TitleWithNavTopBar(
         title = {
             Text(
                 text = title,
-                color = MaterialTheme.colorScheme.onPrimary // Title text color
+                color = MaterialTheme.colorScheme.onPrimaryContainer // Corrected for contrast
             )
         },
         navigationIcon = {
@@ -31,16 +31,19 @@ fun TitleWithNavTopBar(
                 Icon(
                     imageVector = Icons.Default.ArrowBack,
                     contentDescription = "Back",
-                    tint = MaterialTheme.colorScheme.onPrimary // Navigation icon color
+                    tint = MaterialTheme.colorScheme.onPrimaryContainer // Ensures visibility
                 )
             }
         },
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = MaterialTheme.colorScheme.primary, // AppBar background color
+            containerColor = MaterialTheme.colorScheme.primaryContainer, // AppBar background color
             scrolledContainerColor = MaterialTheme.colorScheme.primaryContainer, // Scrolled AppBar color
-            navigationIconContentColor = MaterialTheme.colorScheme.onPrimary, // Navigation icon color
-            titleContentColor = MaterialTheme.colorScheme.onPrimary // Title color
+            navigationIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer, // Icon color on primaryContainer
+            titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer, // Title color on primaryContainer
+            actionIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer // Action icon color on primaryContainer
         ),
         modifier = modifier
     )
 }
+
+

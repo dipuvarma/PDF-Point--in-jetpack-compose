@@ -13,6 +13,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.pdfpoint.presentation.comp.bottomBar.BottomNavigationBar
+import com.example.pdfpoint.presentation.comp.topBar.HomeTopAppBar
+import com.example.pdfpoint.presentation.comp.topBar.TitleWithNavTopBar
 import com.example.pdfpoint.presentation.screens.AllBookByCategoryScreen
 import com.example.pdfpoint.presentation.screens.AllBookScreen
 import com.example.pdfpoint.presentation.screens.BookmarkScreen
@@ -40,7 +42,10 @@ fun PdfPointApp() {
         modifier = Modifier
             .fillMaxSize(),
         topBar = {
-
+            when (currentRoute) {
+                Home.route -> HomeTopAppBar(context = context)
+                else -> TitleWithNavTopBar(title = "Test UI", onBackClick = {})
+            }
         },
         bottomBar = {
             when (currentRoute) {
