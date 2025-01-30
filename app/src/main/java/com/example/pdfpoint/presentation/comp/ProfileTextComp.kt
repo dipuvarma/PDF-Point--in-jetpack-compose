@@ -65,17 +65,3 @@ fun ProfileTextComp(
 }
 
 
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-private fun PreComp() {
-    PDFPointTheme {
-        Surface {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
-                ProfileTextComp()
-            }
-        }
-    }
-}

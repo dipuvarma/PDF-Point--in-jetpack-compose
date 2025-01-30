@@ -25,14 +25,17 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun PopularCardComp(modifier: Modifier = Modifier) {
+fun PopularCardComp(
+    modifier: Modifier = Modifier,
+    bookName: String,
+    authorName: String,
+) {
 
     var isLiked by remember { mutableStateOf(false) }
     var likesCount by remember { mutableIntStateOf(0) } // Example like count
 
     Column(
         modifier = modifier
-            .padding(8.dp)
             .width(150.dp),
         verticalArrangement = Arrangement.Center
     ) {
@@ -53,7 +56,7 @@ fun PopularCardComp(modifier: Modifier = Modifier) {
             Column {
                 Text(
                     modifier = Modifier.width(105.dp),
-                    text = "Fairy Tales",
+                    text = bookName,
                     style = MaterialTheme.typography.titleMedium.copy(
                         color = MaterialTheme.colorScheme.primary,
                         fontWeight = FontWeight.Bold
@@ -63,7 +66,7 @@ fun PopularCardComp(modifier: Modifier = Modifier) {
                 )
                 Text(
                     modifier = Modifier.width(105.dp),
-                    text = "Hans Christian",
+                    text = authorName,
                     style = MaterialTheme.typography.labelSmall.copy(
                         color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f) // Softer secondary text color
                     ),

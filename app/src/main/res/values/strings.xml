@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">PDF Point</string>
+
+    <!--HomePage Content-->
+    <string name="popular_books">Popular Books</string>
+    <string name="categories">Categories</string>
+    <string name="show_all">Show All</string>
+
+
 </resources>

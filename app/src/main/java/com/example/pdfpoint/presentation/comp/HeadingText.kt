@@ -1,5 +1,6 @@
 package com.example.pdfpoint.presentation.comp
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -18,12 +19,12 @@ import com.example.pdfpoint.ui.theme.PDFPointTheme
 fun HeadingText(
     modifier: Modifier = Modifier,
     title: String,
-    subtitle: String
+    subtitle: String,
+    onClick: () -> Unit
 ) {
     Row(
         modifier = modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 8.dp), // Add padding for spacing
+            .fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -34,6 +35,9 @@ fun HeadingText(
             )
         )
         Text(
+            modifier = Modifier.clickable {
+                onClick.invoke()
+            },
             text = subtitle,
             style = MaterialTheme.typography.bodySmall.copy( // Adjust style for clarity
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f) // Slightly higher alpha for better contrast
