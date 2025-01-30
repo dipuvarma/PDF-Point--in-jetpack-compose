@@ -12,6 +12,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import coil3.compose.AsyncImage
 
 @Composable
 fun BookComp(
@@ -35,8 +36,8 @@ fun BookComp(
             shape = RoundedCornerShape(5.dp),
             shadowElevation = 2.dp
         ) {
-            Image(
-                painter = painterResource(id = image),
+            AsyncImage(
+                model = image,
                 contentDescription = null,
                 contentScale = ContentScale.Crop
             )

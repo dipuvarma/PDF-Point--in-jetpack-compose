@@ -27,6 +27,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil3.compose.AsyncImage
 import com.example.pdfpoint.R
 import com.example.pdfpoint.presentation.comp.ProfileTextComp
 
@@ -66,8 +67,8 @@ fun ProfileScreen(modifier: Modifier = Modifier) {
                     color = MaterialTheme.colorScheme.surface,
                     border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary)
                 ) {
-                    Image(
-                        painter = painterResource(R.drawable.placeholder_news),
+                    AsyncImage(
+                        model = R.drawable.placeholder_news,
                         contentDescription = "Profile Picture",
                         contentScale = ContentScale.Crop,
                         modifier = Modifier.fillMaxSize()
