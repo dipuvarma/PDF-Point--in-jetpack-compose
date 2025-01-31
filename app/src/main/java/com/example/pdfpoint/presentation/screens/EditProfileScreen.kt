@@ -41,16 +41,15 @@ import coil3.compose.AsyncImage
 import com.example.pdfpoint.R
 
 @SuppressLint("UnrememberedMutableState")
-@Preview(showSystemUi = true)
 @Composable
 fun EditProfileScreen(
-    modifier: Modifier = Modifier,
-    context: Context = LocalContext.current
+    context: Context
 ) {
     var name by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var bio by remember { mutableStateOf("") }
     var gender by remember { mutableStateOf("") }
+
     var isSaveAttempted by remember { mutableStateOf(false) }
 
     val isNameValid by derivedStateOf {

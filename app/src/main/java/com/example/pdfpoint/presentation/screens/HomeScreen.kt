@@ -9,10 +9,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -23,14 +25,22 @@ import com.example.pdfpoint.presentation.comp.HeadingText
 import com.example.pdfpoint.presentation.comp.PopularCardComp
 import com.example.pdfpoint.presentation.navigation.AllBook
 import com.example.pdfpoint.presentation.navigation.Category
+import com.example.pdfpoint.presentation.viewModel.AppViewModel
 import com.example.pdfpoint.ui.theme.PDFPointTheme
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun HomeScreen(
     context: Context,
-    navController: NavController
+    navController: NavController,
+    viewModel: AppViewModel
 ) {
+
+    /*Categories ui State*/
+    val bookCategoriesState = viewModel.bookCategoryState.collectAsState()
+    val categoriesList = bookCategoriesState.value.books
+
+
     val scrollState = rememberScrollState()
 
     Column(
@@ -71,17 +81,15 @@ fun HomeScreen(
             )
             Spacer(Modifier.height(8.dp))
 
-            FlowRow(
+            LazyRow(
                 modifier = Modifier
                     .fillMaxWidth(),
-                maxItemsInEachRow = 2,
                 horizontalArrangement = Arrangement.spacedBy(16.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                repeat(6) {
+                items(categoriesList) { category ->
                     CategoryCardComp(
-                        categoryImage = R.drawable.placeholder_news,
-                        categoryName = "Category",
+                        categoryImage = category.categoryImage,
+                        categoryName = category.categoryName,
                         modifier = Modifier
                             .weight(1f)
                             .fillMaxWidth(0.5f)
@@ -91,7 +99,6 @@ fun HomeScreen(
         }
     }
 }
-
 
 
 @Preview(showBackground = true, showSystemUi = true)

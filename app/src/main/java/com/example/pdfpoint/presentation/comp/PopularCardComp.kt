@@ -44,7 +44,7 @@ fun PopularCardComp(
         BookComp(
             cardWidth = 150.dp,
             cardHeight = 200.dp,
-            image = R.drawable.fairy_tales
+            image = "R.drawable.fairy_tales"
         )
         Spacer(Modifier.height(6.dp)) // Spacing between image and text
         // Category name

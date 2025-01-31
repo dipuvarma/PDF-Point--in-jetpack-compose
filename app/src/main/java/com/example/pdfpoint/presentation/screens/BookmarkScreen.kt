@@ -44,6 +44,8 @@ fun BookmarkScreen(
                     bookName = "Book Name",
                     authorName = "Author Name",
                     isBookmark = true,
+                    bookImage = "",
+                    onClickBook = { /* Handle like click */ },
                     onBookmarkClick = { /* Handle bookmark click */ }
                 )
                 HorizontalDivider()

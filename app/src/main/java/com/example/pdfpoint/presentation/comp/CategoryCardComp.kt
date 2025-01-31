@@ -46,7 +46,7 @@ import com.example.pdfpoint.ui.theme.PDFPointTheme
 fun CategoryCardComp(
     modifier: Modifier = Modifier,
     categoryName: String,
-    categoryImage: Int
+    categoryImage: String
 ) {
     Column(
         modifier = modifier
@@ -75,21 +75,6 @@ fun CategoryCardComp(
                 ),
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis, // Ensure text doesn't overflow
-            )
-        }
-    }
-}
-
-
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-private fun PreComp() {
-    PDFPointTheme {
-        Scaffold {
-            CategoryCardComp(
-                categoryName = "Category Name",
-                categoryImage = R.drawable.placeholder_news,
-                modifier = Modifier.padding(it)
             )
         }
     }

@@ -54,7 +54,9 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     /* For Firebase */
+    implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.database)
+
     /* For Coil */
     implementation(libs.coil.compose)
     /* For Serialization */

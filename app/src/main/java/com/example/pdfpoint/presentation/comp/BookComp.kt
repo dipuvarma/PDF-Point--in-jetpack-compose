@@ -19,7 +19,7 @@ fun BookComp(
     modifier: Modifier = Modifier,
     cardWidth: Dp,
     cardHeight: Dp,
-    image:Int
+    image:String
 ) {
     Surface(
         modifier = modifier

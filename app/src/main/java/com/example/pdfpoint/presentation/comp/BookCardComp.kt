@@ -1,5 +1,6 @@
 package com.example.pdfpoint.presentation.comp
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -28,8 +29,10 @@ fun BookCardComp(
     modifier: Modifier = Modifier,
     bookName: String,
     authorName: String,
+    bookImage: String,
     isBookmark: Boolean = false,
-    onBookmarkClick: () -> Unit
+    onBookmarkClick: () -> Unit,
+    onClickBook: () -> Unit
 ) {
     Row(
         modifier = modifier
@@ -38,13 +41,14 @@ fun BookCardComp(
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Row(
+            modifier = Modifier.clickable { onClickBook },
             verticalAlignment = Alignment.CenterVertically
         ) {
             // Book thumbnail component
             BookComp(
                 cardWidth = 80.dp, // Reduced size for better proportions
                 cardHeight = 100.dp,
-                image = R.drawable.fairy_tales
+                image = bookImage
             )
             Spacer(Modifier.width(12.dp)) // Refined spacing between thumbnail and text
 

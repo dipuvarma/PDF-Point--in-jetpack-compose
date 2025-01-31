@@ -8,6 +8,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -56,7 +57,6 @@ fun PdfPointApp() {
                         )
                     }
                 }
-
                 else -> BottomNavigationBar(
                     navController = navController
                 )
@@ -68,17 +68,20 @@ fun PdfPointApp() {
 
         NavHost(
             navController = navController,
-            startDestination = EditProfile.route,
+            startDestination = Home.route,
             modifier = Modifier.padding(innerPadding),
         ) {
             composable(Home.route) {
                 HomeScreen(
                     context = context,
-                    navController = navController
+                    navController = navController,
+                    viewModel = hiltViewModel()
                 )
             }
             composable(AllBook.route) {
-                AllBookScreen()
+                AllBookScreen(
+                    viewModel = hiltViewModel()
+                )
             }
             composable(Bookmark.route) {
                 BookmarkScreen()
@@ -90,7 +93,7 @@ fun PdfPointApp() {
                 SearchScreen()
             }
             composable(EditProfile.route) {
-                EditProfileScreen()
+                EditProfileScreen(context = context)
             }
             composable(Category.route) {
                 CategoryScreen()
