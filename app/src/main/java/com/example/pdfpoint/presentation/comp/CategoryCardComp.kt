@@ -46,7 +46,8 @@ import com.example.pdfpoint.ui.theme.PDFPointTheme
 fun CategoryCardComp(
     modifier: Modifier = Modifier,
     categoryName: String,
-    categoryImage: String
+    categoryImage: String,
+    onClick:()-> Unit
 ) {
     Column(
         modifier = modifier
@@ -57,7 +58,8 @@ fun CategoryCardComp(
         BookComp(
             cardWidth = 150.dp,
             cardHeight = 150.dp,
-            image = categoryImage
+            image = categoryImage,
+            onClick = {onClick.invoke()}
         )
         Spacer(Modifier.height(6.dp)) // Spacing between image and text
         // Category name

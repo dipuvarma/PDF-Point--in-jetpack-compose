@@ -13,6 +13,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
 import com.example.pdfpoint.presentation.comp.bottomBar.BottomNavigationBar
 import com.example.pdfpoint.presentation.comp.topBar.HomeTopAppBar
 import com.example.pdfpoint.presentation.comp.topBar.TitleWithNavTopBar
@@ -96,10 +97,20 @@ fun PdfPointApp() {
                 EditProfileScreen(context = context)
             }
             composable(Category.route) {
-                CategoryScreen()
+                CategoryScreen(
+                    viewModel = hiltViewModel(),
+                    navController = navController
+                )
             }
-            composable(AllBookByCategory.route) {
-                AllBookByCategoryScreen()
+            composable<AllBookByCategory> {
+
+                val categoryName = it.toRoute<AllBookByCategory>()
+                AllBookByCategoryScreen(
+                    viewModel = hiltViewModel(),
+                    navController = navController,
+                    categoryName = categoryName.categoryName
+                )
+
             }
             composable(PdfView.route) {
                 PdfViewScreen()

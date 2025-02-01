@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.pdfpoint.data.repo.AppRepo
 import com.example.pdfpoint.presentation.viewModel.state.BookCategoriesState
 import com.example.pdfpoint.presentation.viewModel.state.BookState
+import com.example.pdfpoint.presentation.viewModel.state.BooksByCategoryModel
 import com.example.pdfpoint.utils.Response
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -26,11 +27,16 @@ class AppViewModel @Inject constructor(private val appRepo: AppRepo) : ViewModel
     private val _bookCategoryState = MutableStateFlow(BookCategoriesState())
     val bookCategoryState = _bookCategoryState.asStateFlow()
 
+    /*Books By Category State*/
+    private val _bookByCategoryNameState = MutableStateFlow(BooksByCategoryModel())
+    val bookByCategoryState = _bookByCategoryNameState.asStateFlow()
+
     init {
         getAllBooks()
         getAllCategories()
     }
 
+    /*Get All Books */
     fun getAllBooks() {
         viewModelScope.launch(Dispatchers.IO) {
             appRepo.getAllBooks().collect {
@@ -52,6 +58,7 @@ class AppViewModel @Inject constructor(private val appRepo: AppRepo) : ViewModel
         }
     }
 
+    /*Get Categories */
     fun getAllCategories() {
         viewModelScope.launch(Dispatchers.IO) {
             appRepo.getAllCategories().collect {
@@ -75,5 +82,28 @@ class AppViewModel @Inject constructor(private val appRepo: AppRepo) : ViewModel
 
     }
 
+    /*Get All Books By categories name*/
+    fun getAllBooksByCategoryName(categoryName: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            appRepo.getAllBooksByCategoryName(categoryName).collect {
+                when (it) {
+                    is Response.Loading -> {
+                        _bookByCategoryNameState.value = BooksByCategoryModel(isLoading = true)
+                    }
+
+                    is Response.Success -> {
+                        _bookByCategoryNameState.value =
+                            BooksByCategoryModel(books = it.data, isLoading = false)
+                    }
+
+                    is Response.Error -> {
+                        _bookByCategoryNameState.value =
+                            BooksByCategoryModel(isLoading = false, error = it.exception.toString())
+                    }
+                }
+            }
+
+        }
+    }
 }
 

@@ -16,6 +16,8 @@ import kotlinx.coroutines.channels.awaitClose
 
 class AppRepo @Inject constructor(private val firebaseDatabase: FirebaseDatabase) {
 
+
+    /*Get All Books*/
     suspend fun getAllBooks(): Flow<Response<List<BookModel>>> = callbackFlow {
 
         trySend(Response.Loading)
@@ -37,7 +39,7 @@ class AppRepo @Inject constructor(private val firebaseDatabase: FirebaseDatabase
         firebaseDatabase.reference.child("books")
             .addValueEventListener(listener)
 
-        awaitClose{
+        awaitClose {
             firebaseDatabase.reference.child("books")
                 .removeEventListener(listener)
         }
@@ -45,7 +47,7 @@ class AppRepo @Inject constructor(private val firebaseDatabase: FirebaseDatabase
     }
 
 
-/*get All Categories*/
+    /*Get All Categories*/
     suspend fun getAllCategories(): Flow<Response<List<BookCategoriesModel>>> = callbackFlow {
 
         trySend(Response.Loading)
@@ -67,11 +69,41 @@ class AppRepo @Inject constructor(private val firebaseDatabase: FirebaseDatabase
         firebaseDatabase.reference.child("categories")
             .addValueEventListener(listener)
 
-        awaitClose{
+        awaitClose {
             firebaseDatabase.reference.child("categories")
                 .removeEventListener(listener)
         }
 
     }
+
+
+    /*Get All Books By Categories Name*/
+    suspend fun getAllBooksByCategoryName(categoryName: String): Flow<Response<List<BookModel>>> =
+        callbackFlow {
+            trySend(Response.Loading)
+
+            val listener = object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    var items: List<BookModel> = emptyList()
+                    items =
+                        snapshot.children.filter { it.getValue<BookModel>()!!.category == categoryName }
+                            .map {
+                                it.getValue<BookModel>()!!
+                            }
+                    trySend(Response.Success(items))
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    trySend(Response.Error(error.toException()))
+                }
+            }
+
+            firebaseDatabase.reference.child("books").addValueEventListener(listener)
+
+            awaitClose {
+                firebaseDatabase.reference.child("books")
+                    .removeEventListener(listener)
+            }
+        }
 
 }
