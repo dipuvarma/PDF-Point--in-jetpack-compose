@@ -19,14 +19,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.pdfpoint.presentation.comp.BookCardComp
 import com.example.pdfpoint.presentation.comp.SearchBarComp
+import com.example.pdfpoint.presentation.navigation.PdfView
 import com.example.pdfpoint.presentation.viewModel.AppViewModel
 import com.google.firebase.database.core.Context
 
 @Composable
 fun AllBookScreen(
     viewModel: AppViewModel,
+    navController: NavController
 ) {
     // Collect the book state from the ViewModel
     val state = viewModel.bookState.collectAsState()
@@ -89,9 +92,8 @@ fun AllBookScreen(
                             bookImage = book.bookImage,
                             isBookmark = false,
                             onBookmarkClick = { /* Handle bookmark click */ },
-                            onClickBook = { /* Handle book click */ }
+                            onClickBook = { navController.navigate(PdfView(bookUri = book.bookUrl)) }
                         )
-
                         // Horizontal divider between books
                         HorizontalDivider()
                     }

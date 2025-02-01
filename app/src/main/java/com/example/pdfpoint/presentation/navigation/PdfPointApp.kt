@@ -58,6 +58,7 @@ fun PdfPointApp() {
                         )
                     }
                 }
+
                 else -> BottomNavigationBar(
                     navController = navController
                 )
@@ -81,7 +82,8 @@ fun PdfPointApp() {
             }
             composable(AllBook.route) {
                 AllBookScreen(
-                    viewModel = hiltViewModel()
+                    viewModel = hiltViewModel(),
+                    navController = navController
                 )
             }
             composable(Bookmark.route) {
@@ -112,8 +114,11 @@ fun PdfPointApp() {
                 )
 
             }
-            composable(PdfView.route) {
-                PdfViewScreen()
+            composable<PdfView> {
+                val book = it.toRoute<PdfView>()
+                PdfViewScreen(
+                    bookUri = book.bookUri
+                )
             }
         }
     }

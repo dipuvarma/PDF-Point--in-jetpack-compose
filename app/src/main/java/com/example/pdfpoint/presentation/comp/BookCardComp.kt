@@ -41,7 +41,7 @@ fun BookCardComp(
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Row(
-            modifier = Modifier.clickable { onClickBook },
+            modifier = Modifier.clickable { onClickBook.invoke() },
             verticalAlignment = Alignment.CenterVertically
         ) {
             // Book thumbnail component

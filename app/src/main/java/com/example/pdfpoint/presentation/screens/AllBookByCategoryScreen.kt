@@ -22,6 +22,7 @@ import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.pdfpoint.presentation.comp.BookCardComp
+import com.example.pdfpoint.presentation.navigation.PdfView
 import com.example.pdfpoint.presentation.viewModel.AppViewModel
 
 @Composable
@@ -78,7 +79,7 @@ fun AllBookByCategoryScreen(
                             authorName = book.bookAuthor,
                             bookImage = book.bookImage,
                             onBookmarkClick = { },
-                            onClickBook = { }
+                            onClickBook = { navController.navigate(PdfView(bookUri = book.bookUrl)) }
                         )
                         HorizontalDivider()
                     }

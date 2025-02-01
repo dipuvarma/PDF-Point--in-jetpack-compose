@@ -48,8 +48,12 @@ data class AllBookByCategory(
 
 
 @Serializable
-object PdfView {
-    const val route = "pdf_view"
+data class PdfView(
+    val bookUri: String
+) {
+    companion object {
+        const val route = "pdf_view"
+    }
 }
 
 
