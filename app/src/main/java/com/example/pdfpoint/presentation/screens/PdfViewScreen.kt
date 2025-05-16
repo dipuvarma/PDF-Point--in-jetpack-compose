@@ -51,6 +51,7 @@ fun PdfViewScreen(
 
     val safeProgress = loadPercent.coerceIn(0, 100) / 100f
 
+
     Box(
         modifier = Modifier
             .fillMaxSize()
