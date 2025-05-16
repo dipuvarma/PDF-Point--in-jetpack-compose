@@ -24,7 +24,6 @@ import com.example.pdfpoint.presentation.viewModel.AppViewModel
 
 @Composable
 fun MainScreen(
-    context: Context,
     rootNavController: NavController,
     tabNavController: NavHostController,
     viewModel: AppViewModel
@@ -33,7 +32,7 @@ fun MainScreen(
         modifier = Modifier
             .fillMaxSize(),
         topBar = {
-            HomeTopAppBar(context = context)
+            HomeTopAppBar()
         },
         bottomBar = {
             BottomNavigationBar(navController = tabNavController)
@@ -46,7 +45,6 @@ fun MainScreen(
         ) {
             composable<Home> {
                 HomeScreen(
-                    context = context,
                     navController = rootNavController,
                     viewModel = viewModel
                 )

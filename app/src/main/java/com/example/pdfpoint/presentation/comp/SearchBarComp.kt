@@ -2,6 +2,8 @@ package com.example.pdfpoint.presentation.comp
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Search
@@ -14,8 +16,10 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -24,12 +28,13 @@ fun SearchBarComp(
     onQueryChanged: (TextFieldValue) -> Unit,
     onSearch: () -> Unit,
     modifier: Modifier = Modifier,
-    enabled: Boolean = true // Added to control if the search is enabled or not
+    enabled: Boolean = true,
 ) {
     OutlinedTextField(
         value = query,
         onValueChange = onQueryChanged,
         placeholder = { Text("Search books") },
+        label = { Text("Search") }, // 🛡️ Optional accessibility
         leadingIcon = { Icon(Icons.Filled.Search, contentDescription = "Search Icon") },
         trailingIcon = {
             if (query.text.isNotEmpty()) {
@@ -40,18 +45,23 @@ fun SearchBarComp(
         },
         modifier = modifier
             .fillMaxWidth()
-            .padding(8.dp),
+            .padding(horizontal = 16.dp, vertical = 4.dp),
         colors = TextFieldDefaults.outlinedTextFieldColors(
-            focusedBorderColor = MaterialTheme.colorScheme.primary, // Material 3 primary color
-            unfocusedBorderColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f), // Material 3 color
-           // textColor = MaterialTheme.colorScheme.onSurface, // Text color for input
-            disabledTextColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.38f), // Disabled text color
-           // backgroundColor = MaterialTheme.colorScheme.surface, // Material 3 background color
-            cursorColor = MaterialTheme.colorScheme.primary, // Cursor color when active
+            focusedBorderColor = MaterialTheme.colorScheme.primary,
+            unfocusedBorderColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
+            disabledTextColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.38f)
+            // Other colors can be added if needed
         ),
-        shape = MaterialTheme.shapes.medium, // Material 3 shape
-        enabled = enabled, // Control whether the text field is enabled
-        readOnly = !enabled, // If disabled, set the TextField to read-only
-        singleLine = true
+        shape = MaterialTheme.shapes.medium,
+        enabled = enabled,
+        readOnly = !enabled,
+        singleLine = true,
+        keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Search),
+        keyboardActions = KeyboardActions(
+            onSearch = {
+                onSearch()
+                // optional: hide keyboard
+            }
+        )
     )
 }

@@ -13,10 +13,12 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.pdfpoint.presentation.comp.BookCardComp
@@ -27,63 +29,64 @@ import com.example.pdfpoint.presentation.viewModel.AppViewModel
 fun AllBookByCategoryScreen(
     viewModel: AppViewModel,
     navController: NavController,
-    categoryName: String
+    categoryName: String,
 ) {
 
-    val state = viewModel.bookByCategoryState.collectAsState()
-    val allBooksByCatList = state.value.books ?: emptyList()
+    val state by viewModel.bookByCategoryState.collectAsState()
+    val allBooksByCatList = state.books
 
-    LaunchedEffect(Unit) {
+    LaunchedEffect(categoryName) {
         viewModel.getAllBooksByCategoryName(categoryName)
     }
 
-    when {
-        state.value.isLoading -> {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
-
-                CircularProgressIndicator()
-            }
-        }
-
-        state.value.error == null -> {
-            Text(text = "Error: ${state.value.error}")
-        }
-
-        else -> {
-            Column(
+    Box(
+        modifier = Modifier.fillMaxSize(),
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(top = 8.dp, start = 16.dp, end = 16.dp)
+        ) {
+            Text(
+                text = categoryName,
+                style = MaterialTheme.typography.titleLarge.copy( // Use a larger size for prominence
+                    color = MaterialTheme.colorScheme.primary
+                )
+            )
+            Spacer(Modifier.height(8.dp))
+            LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(top = 8.dp, start = 16.dp, end = 16.dp)
             ) {
-                Text(
-                    text = categoryName,
-                    style = MaterialTheme.typography.titleLarge.copy( // Use a larger size for prominence
-                        color = MaterialTheme.colorScheme.primary
+                items(allBooksByCatList) { book ->
+                    BookCardComp(
+                        modifier = Modifier.padding(vertical = 8.dp),
+                        bookName = book.bookName,
+                        authorName = book.bookAuthor,
+                        bookImage = book.bookImage,
+                        onBookmarkClick = { },
+                        onClickBook = { navController.navigate(PdfView(bookUri = book.bookUrl)) }
                     )
-                )
-                Spacer(Modifier.height(8.dp))
-                LazyColumn(
-                    modifier = Modifier
-                        .fillMaxSize()
-                ) {
-                    items(allBooksByCatList) { book ->
-                        BookCardComp(
-                            modifier = Modifier.padding(vertical = 8.dp),
-                            bookName = book.bookName,
-                            authorName = book.bookAuthor,
-                            bookImage = book.bookImage,
-                            onBookmarkClick = { },
-                            onClickBook = { navController.navigate(PdfView(bookUri = book.bookUrl)) }
-                        )
-                        HorizontalDivider()
-                    }
+                    HorizontalDivider()
                 }
             }
         }
+
+        if (state.isLoading) {
+            CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+        }
+
+
+        state.error?.let { errorMsg ->
+            Text(
+                text = errorMsg,
+                color = Color.Red,
+                modifier = Modifier
+                    .align(Alignment.Center)
+                    .padding(16.dp)
+            )
+        }
+
     }
 
 }

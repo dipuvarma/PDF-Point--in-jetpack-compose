@@ -1,7 +1,9 @@
 package com.example.pdfpoint.data.repo
 
+import android.util.Log
 import com.example.pdfpoint.data.model.BookCategoriesModel
 import com.example.pdfpoint.data.model.BookModel
+import com.example.pdfpoint.presentation.repo.AppRepoImpl
 import com.example.pdfpoint.presentation.viewModel.state.BookCategoriesState
 import com.example.pdfpoint.utils.Response
 import com.google.firebase.database.DataSnapshot
@@ -14,95 +16,94 @@ import javax.inject.Inject
 import com.google.firebase.database.getValue
 import kotlinx.coroutines.channels.awaitClose
 
-class AppRepo @Inject constructor(private val firebaseDatabase: FirebaseDatabase) {
-
+class AppRepo @Inject constructor(
+    private val firebaseDatabase: FirebaseDatabase,
+) : AppRepoImpl {
 
     /*Get All Books*/
-    suspend fun getAllBooks(): Flow<Response<List<BookModel>>> = callbackFlow {
-
+    override suspend fun getAllBooks(): Flow<Response<List<BookModel>>> = callbackFlow {
         trySend(Response.Loading)
 
         val listener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                var items: List<BookModel> = emptyList()
-                items = snapshot.children.map {
-                    it.getValue<BookModel>()!!
+                val items = snapshot.children.mapNotNull {
+                    it.getValue(BookModel::class.java)
                 }
-                trySend(Response.Success(items))
+                trySend(Response.Success(items)).isSuccess
             }
 
             override fun onCancelled(error: DatabaseError) {
-                trySend(Response.Error(error.toException()))
+                Log.e("AppRepo", "getAllBooks: Error", error.toException())
+                trySend(Response.Error(error.toException())).isSuccess
             }
-
         }
-        firebaseDatabase.reference.child("books")
-            .addValueEventListener(listener)
+
+        val ref = firebaseDatabase.reference.child("books")
+        ref.addValueEventListener(listener)
 
         awaitClose {
-            firebaseDatabase.reference.child("books")
-                .removeEventListener(listener)
+            ref.removeEventListener(listener)
         }
-
     }
 
 
     /*Get All Categories*/
-    suspend fun getAllCategories(): Flow<Response<List<BookCategoriesModel>>> = callbackFlow {
+    override suspend fun getAllCategories(): Flow<Response<List<BookCategoriesModel>>> =
+        callbackFlow {
 
-        trySend(Response.Loading)
+            trySend(Response.Loading)
 
-        val listener = object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                var items: List<BookCategoriesModel> = emptyList()
-                items = snapshot.children.map {
-                    it.getValue<BookCategoriesModel>()!!
+            val listener = object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    var items =
+                        snapshot.children.mapNotNull { it.getValue(BookCategoriesModel::class.java) }
+
+                    trySend(Response.Success(items)).isSuccess
                 }
-                trySend(Response.Success(items))
-            }
 
-            override fun onCancelled(error: DatabaseError) {
-                trySend(Response.Error(error.toException()))
+                override fun onCancelled(error: DatabaseError) {
+                    Log.e("AppRepo", "getAllCategories: Error", error.toException())
+                    trySend(Response.Error(error.toException())).isSuccess
+                }
+
+            }
+            val ref = firebaseDatabase.reference.child("categories")
+
+            ref.addValueEventListener(listener)
+
+            awaitClose {
+                ref.removeEventListener(listener)
             }
 
         }
-        firebaseDatabase.reference.child("categories")
-            .addValueEventListener(listener)
-
-        awaitClose {
-            firebaseDatabase.reference.child("categories")
-                .removeEventListener(listener)
-        }
-
-    }
 
 
     /*Get All Books By Categories Name*/
-    suspend fun getAllBooksByCategoryName(categoryName: String): Flow<Response<List<BookModel>>> =
+    override suspend fun getAllBooksByCategoryName(categoryName: String): Flow<Response<List<BookModel>>> =
         callbackFlow {
             trySend(Response.Loading)
 
             val listener = object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    var items: List<BookModel> = emptyList()
-                    items =
-                        snapshot.children.filter { it.getValue<BookModel>()!!.category == categoryName }
-                            .map {
-                                it.getValue<BookModel>()!!
-                            }
-                    trySend(Response.Success(items))
+                    var items = snapshot.children.mapNotNull { it.getValue(BookModel::class.java) }
+                        .filter { it.category == categoryName }
+
+                    trySend(Response.Success(items)).isSuccess
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                    trySend(Response.Error(error.toException()))
+                    Log.e("AppRepo", "getAllBooksByCategoryName: Error", error.toException())
+
+                    trySend(Response.Error(error.toException())).isSuccess
                 }
             }
 
-            firebaseDatabase.reference.child("books").addValueEventListener(listener)
+            val ref = firebaseDatabase.reference.child("books")
+
+            ref.addValueEventListener(listener)
 
             awaitClose {
-                firebaseDatabase.reference.child("books")
-                    .removeEventListener(listener)
+                ref.removeEventListener(listener)
             }
         }
 

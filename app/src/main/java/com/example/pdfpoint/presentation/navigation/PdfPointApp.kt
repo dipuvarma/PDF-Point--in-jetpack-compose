@@ -37,9 +37,6 @@ import com.example.pdfpoint.presentation.viewModel.AppViewModel
 @Composable
 fun PdfPointApp() {
 
-    /*For local context*/
-    val context = LocalContext.current
-
     /*For Navigation Controller*/
     val rootNavController = rememberNavController()
     val tabNavController = rememberNavController()
@@ -54,7 +51,6 @@ fun PdfPointApp() {
 
         composable<Main> {
             MainScreen(
-                context = context,
                 rootNavController = rootNavController,
                 tabNavController = tabNavController,
                 viewModel = viewModel
@@ -78,7 +74,8 @@ fun PdfPointApp() {
         composable<PdfView> {
             val book = it.toRoute<PdfView>()
             PdfViewScreen(
-                bookUri = book.bookUri
+                bookUri = book.bookUri,
+                navController = rootNavController
             )
         }
     }
