@@ -1,4 +1,4 @@
-package com.example.pdfpoint.ui.theme
+package com.example.pdfpoint.presentation.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.font.FontFamily

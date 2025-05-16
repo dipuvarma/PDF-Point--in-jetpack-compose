@@ -61,7 +61,12 @@ fun AllBookScreen(
                         isBookmark = false,
                         onBookmarkClick = { /* Handle */ },
                         onClickBook = {
-                            navController.navigate("pdf_view/${book.bookUrl}")
+                            navController.navigate(
+                                PdfView(
+                                    bookUri = book.bookUrl,
+                                    bookTitle = book.bookName
+                                )
+                            )
                         }
                     )
                     HorizontalDivider()

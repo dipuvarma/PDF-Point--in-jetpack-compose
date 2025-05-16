@@ -1,4 +1,4 @@
-package com.example.pdfpoint.ui.theme
+package com.example.pdfpoint.presentation.ui.theme
 import androidx.compose.ui.graphics.Color
 
 val primaryLight = Color(0xFF4C662B)

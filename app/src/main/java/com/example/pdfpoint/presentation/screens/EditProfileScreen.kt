@@ -31,6 +31,7 @@ import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
@@ -43,8 +44,10 @@ import com.example.pdfpoint.R
 @SuppressLint("UnrememberedMutableState")
 @Composable
 fun EditProfileScreen(
-    context: Context
 ) {
+
+    val context = LocalContext.current
+
     var name by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var bio by remember { mutableStateOf("") }
@@ -81,14 +84,14 @@ fun EditProfileScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
-            text = context.getString(R.string.edit_title),
+            text = stringResource(id = R.string.edit_title),
             style = MaterialTheme.typography.titleLarge.copy(
                 color = MaterialTheme.colorScheme.primary,
                 fontWeight = FontWeight.Bold
             )
         )
         Text(
-            text = context.getString(R.string.edit_des),
+            text = stringResource(id = R.string.edit_des),
             style = MaterialTheme.typography.labelSmall.copy(
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 textAlign = TextAlign.Center, // Center the text horizontally

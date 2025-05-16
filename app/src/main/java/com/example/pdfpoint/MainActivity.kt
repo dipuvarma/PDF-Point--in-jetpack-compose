@@ -6,7 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.material3.Surface
 import com.example.pdfpoint.presentation.navigation.PdfPointApp
-import com.example.pdfpoint.ui.theme.PDFPointTheme
+import com.example.pdfpoint.presentation.ui.theme.PDFPointTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

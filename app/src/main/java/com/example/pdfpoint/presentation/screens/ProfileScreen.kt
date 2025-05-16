@@ -32,7 +32,9 @@ import com.example.pdfpoint.R
 import com.example.pdfpoint.presentation.comp.ProfileTextComp
 
 @Composable
-fun ProfileScreen(modifier: Modifier = Modifier) {
+fun ProfileScreen(
+    modifier: Modifier = Modifier
+) {
 
     Box(
         modifier = Modifier

@@ -1,7 +1,5 @@
 package com.example.pdfpoint.presentation.screens
 
-import android.util.Log
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.layout.Box
@@ -12,14 +10,12 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Error
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.DismissDirection
-import androidx.compose.material3.DismissValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.SwipeToDismiss
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -31,10 +27,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.pdfpoint.presentation.comp.topBar.TopAppBarComp
 import com.rizzi.bouquet.ResourceType
 import com.rizzi.bouquet.VerticalPDFReader
 import com.rizzi.bouquet.rememberVerticalPdfReaderState
-import kotlinx.coroutines.delay
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -42,6 +38,7 @@ import kotlinx.coroutines.delay
 fun PdfViewScreen(
     bookUri: String,
     navController: NavController,
+    bookName: String,
 ) {
     val pdfState = rememberVerticalPdfReaderState(
         resource = ResourceType.Remote(bookUri),
@@ -52,21 +49,27 @@ fun PdfViewScreen(
     val loadPercent = pdfState.loadPercent
     val error = pdfState.error
 
-    // System back gesture handler
-    BackHandler {
-        navController.popBackStack()
-    }
+    val safeProgress = loadPercent.coerceIn(0, 100) / 100f
 
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
     ) {
-        // PDF Viewer
-        VerticalPDFReader(
-            state = pdfState,
+        Column(
             modifier = Modifier.fillMaxSize()
-        )
+        ) {
+            TopAppBarComp(
+                title = bookName,
+                navigationIcon = Icons.AutoMirrored.Filled.ArrowBack,
+                onClickNavigationIcon = { navController.popBackStack() }
+            )
+            // PDF Viewer
+            VerticalPDFReader(
+                state = pdfState,
+                modifier = Modifier.fillMaxSize()
+            )
+        }
 
         // Show actual progress
         if (!isLoaded && error == null) {
@@ -75,14 +78,14 @@ fun PdfViewScreen(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 CircularProgressIndicator(
-                    progress = loadPercent / 100f,
+                    progress = safeProgress,
                     modifier = Modifier.size(100.dp),
                     strokeWidth = 4.dp,
                     color = MaterialTheme.colorScheme.primary
                 )
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(
-                    text = "${loadPercent}%",
+                    text = "${loadPercent.coerceAtMost(100)}%",
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onBackground
@@ -107,31 +110,5 @@ fun PdfViewScreen(
                 )
             }
         }
-    }
-
-}
-
-
-@Composable
-fun SwipeToCloseWrapper(
-    onSwipeDismiss: () -> Unit,
-    content: @Composable () -> Unit,
-) {
-    val swipeThreshold = 150f
-    var offsetX by remember { mutableStateOf(0f) }
-
-    Box(
-        Modifier
-            .pointerInput(Unit) {
-                detectHorizontalDragGestures { _, dragAmount ->
-                    offsetX += dragAmount
-                    if (offsetX > swipeThreshold || offsetX < -swipeThreshold) {
-                        onSwipeDismiss()
-                        offsetX = 0f
-                    }
-                }
-            }
-    ) {
-        content()
     }
 }

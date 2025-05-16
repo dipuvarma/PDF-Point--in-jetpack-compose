@@ -38,6 +38,7 @@ sealed class Graph {
     @Serializable
     data class PdfView(
         val bookUri: String,
+        val bookTitle: String
     )
 }
 

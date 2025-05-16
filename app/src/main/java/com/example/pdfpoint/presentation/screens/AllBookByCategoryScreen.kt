@@ -8,6 +8,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
@@ -22,6 +25,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.pdfpoint.presentation.comp.BookCardComp
+import com.example.pdfpoint.presentation.comp.topBar.TopAppBarComp
 import com.example.pdfpoint.presentation.navigation.Graph.PdfView
 import com.example.pdfpoint.presentation.viewModel.AppViewModel
 
@@ -45,18 +49,23 @@ fun AllBookByCategoryScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top = 8.dp, start = 16.dp, end = 16.dp)
         ) {
-            Text(
-                text = categoryName,
-                style = MaterialTheme.typography.titleLarge.copy( // Use a larger size for prominence
-                    color = MaterialTheme.colorScheme.primary
-                )
+            TopAppBarComp(
+                title = categoryName,
+                navigationIcon = Icons.AutoMirrored.Filled.ArrowBack,
+                onClickNavigationIcon = { navController.popBackStack() }
             )
-            Spacer(Modifier.height(8.dp))
+//            Text(
+//                text = categoryName,
+//                style = MaterialTheme.typography.titleLarge.copy( // Use a larger size for prominence
+//                    color = MaterialTheme.colorScheme.primary
+//                )
+//            )
+            //Spacer(Modifier.height(8.dp))
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
+                    .padding(horizontal = 16.dp)
             ) {
                 items(allBooksByCatList) { book ->
                     BookCardComp(
@@ -65,7 +74,14 @@ fun AllBookByCategoryScreen(
                         authorName = book.bookAuthor,
                         bookImage = book.bookImage,
                         onBookmarkClick = { },
-                        onClickBook = { navController.navigate(PdfView(bookUri = book.bookUrl)) }
+                        onClickBook = {
+                            navController.navigate(
+                                PdfView(
+                                    bookUri = book.bookUrl,
+                                    bookTitle = book.bookName
+                                )
+                            )
+                        }
                     )
                     HorizontalDivider()
                 }
