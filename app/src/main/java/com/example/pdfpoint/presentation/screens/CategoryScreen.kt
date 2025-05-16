@@ -15,8 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.pdfpoint.presentation.comp.CategoryCardComp
-import com.example.pdfpoint.presentation.navigation.AllBookByCategory
-import com.example.pdfpoint.presentation.navigation.Category
+import com.example.pdfpoint.presentation.navigation.Graph.AllBookByCategory
 import com.example.pdfpoint.presentation.viewModel.AppViewModel
 
 @Composable

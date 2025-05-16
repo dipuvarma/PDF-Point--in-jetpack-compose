@@ -17,15 +17,21 @@ import androidx.navigation.toRoute
 import com.example.pdfpoint.presentation.comp.bottomBar.BottomNavigationBar
 import com.example.pdfpoint.presentation.comp.topBar.HomeTopAppBar
 import com.example.pdfpoint.presentation.comp.topBar.TitleWithNavTopBar
+import com.example.pdfpoint.presentation.navigation.Graph.AllBookByCategory
+import com.example.pdfpoint.presentation.navigation.Graph.Category
+import com.example.pdfpoint.presentation.navigation.Graph.Main
+import com.example.pdfpoint.presentation.navigation.Graph.PdfView
 import com.example.pdfpoint.presentation.screens.AllBookByCategoryScreen
 import com.example.pdfpoint.presentation.screens.AllBookScreen
 import com.example.pdfpoint.presentation.screens.BookmarkScreen
 import com.example.pdfpoint.presentation.screens.CategoryScreen
 import com.example.pdfpoint.presentation.screens.EditProfileScreen
 import com.example.pdfpoint.presentation.screens.HomeScreen
+import com.example.pdfpoint.presentation.screens.MainScreen
 import com.example.pdfpoint.presentation.screens.PdfViewScreen
 import com.example.pdfpoint.presentation.screens.ProfileScreen
 import com.example.pdfpoint.presentation.screens.SearchScreen
+import com.example.pdfpoint.presentation.viewModel.AppViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -35,92 +41,45 @@ fun PdfPointApp() {
     val context = LocalContext.current
 
     /*For Navigation Controller*/
-    val navController = rememberNavController()
+    val rootNavController = rememberNavController()
+    val tabNavController = rememberNavController()
 
-    val currentBackStackEntry = navController.currentBackStackEntryAsState()
-    val currentRoute = currentBackStackEntry.value?.destination?.route
+    //for viewModel
+    val viewModel = hiltViewModel<AppViewModel>()
 
-    Scaffold(
-        modifier = Modifier
-            .fillMaxSize(),
-        topBar = {
-            when (currentRoute) {
-                Home.route -> HomeTopAppBar(context = context)
-                else -> TitleWithNavTopBar(title = "Test UI", onBackClick = {})
-            }
-        },
-        bottomBar = {
-            when (currentRoute) {
-                AllBookByCategory.route, PdfView.route, Category.route, EditProfile.route -> {
-                    AnimatedVisibility(false) {
-                        BottomNavigationBar(
-                            navController = navController
-                        )
-                    }
-                }
+    NavHost(
+        navController = rootNavController,
+        startDestination = Main,
+    ) {
 
-                else -> BottomNavigationBar(
-                    navController = navController
-                )
-            }
-
+        composable<Main> {
+            MainScreen(
+                context = context,
+                rootNavController = rootNavController,
+                tabNavController = tabNavController,
+                viewModel = viewModel
+            )
         }
 
-    ) { innerPadding ->
-
-        NavHost(
-            navController = navController,
-            startDestination = Home.route,
-            modifier = Modifier.padding(innerPadding),
-        ) {
-            composable(Home.route) {
-                HomeScreen(
-                    context = context,
-                    navController = navController,
-                    viewModel = hiltViewModel()
-                )
-            }
-            composable(AllBook.route) {
-                AllBookScreen(
-                    viewModel = hiltViewModel(),
-                    navController = navController
-                )
-            }
-            composable(Bookmark.route) {
-                BookmarkScreen()
-            }
-            composable(Profile.route) {
-                ProfileScreen()
-            }
-            composable(Search.route) {
-                SearchScreen()
-            }
-            composable(EditProfile.route) {
-                EditProfileScreen(context = context)
-            }
-            composable(Category.route) {
-                CategoryScreen(
-                    viewModel = hiltViewModel(),
-                    navController = navController
-                )
-            }
-            composable<AllBookByCategory> {
-
-                val categoryName = it.toRoute<AllBookByCategory>()
-                AllBookByCategoryScreen(
-                    viewModel = hiltViewModel(),
-                    navController = navController,
-                    categoryName = categoryName.categoryName
-                )
-
-            }
-            composable<PdfView> {
-                val book = it.toRoute<PdfView>()
-                PdfViewScreen(
-                    bookUri = book.bookUri
-                )
-            }
+        composable<Category> {
+            CategoryScreen(
+                viewModel = viewModel,
+                navController = rootNavController
+            )
+        }
+        composable<AllBookByCategory> {
+            val categoryName = it.toRoute<AllBookByCategory>()
+            AllBookByCategoryScreen(
+                viewModel = viewModel,
+                navController = rootNavController,
+                categoryName = categoryName.categoryName
+            )
+        }
+        composable<PdfView> {
+            val book = it.toRoute<PdfView>()
+            PdfViewScreen(
+                bookUri = book.bookUri
+            )
         }
     }
-
 }

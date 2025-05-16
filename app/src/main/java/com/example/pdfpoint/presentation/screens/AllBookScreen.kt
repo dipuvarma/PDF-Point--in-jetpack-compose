@@ -1,7 +1,5 @@
 package com.example.pdfpoint.presentation.screens
 
-import android.util.Log
-import android.widget.Toast
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -22,9 +20,8 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.pdfpoint.presentation.comp.BookCardComp
 import com.example.pdfpoint.presentation.comp.SearchBarComp
-import com.example.pdfpoint.presentation.navigation.PdfView
+import com.example.pdfpoint.presentation.navigation.Graph.PdfView
 import com.example.pdfpoint.presentation.viewModel.AppViewModel
-import com.google.firebase.database.core.Context
 
 @Composable
 fun AllBookScreen(
@@ -82,8 +79,6 @@ fun AllBookScreen(
                     modifier = Modifier.fillMaxSize()
                 ) {
                     items(booksListData) { book ->
-                        Log.d("TAG", "AllBookByCategoryScreen: ${book.bookAuthor}")
-
                         // Book card component
                         BookCardComp(
                             modifier = Modifier.padding(vertical = 8.dp),

@@ -21,6 +21,8 @@ object DiModule {
         return FirebaseDatabase.getInstance()
     }
 
+    @Provides
+    @Singleton
     fun provideRepo(firebaseDatabase: FirebaseDatabase): AppRepo {
         return AppRepo(firebaseDatabase)
     }

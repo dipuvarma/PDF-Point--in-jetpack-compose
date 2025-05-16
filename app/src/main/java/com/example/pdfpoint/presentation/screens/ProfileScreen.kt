@@ -31,7 +31,6 @@ import coil3.compose.AsyncImage
 import com.example.pdfpoint.R
 import com.example.pdfpoint.presentation.comp.ProfileTextComp
 
-@Preview(showSystemUi = true)
 @Composable
 fun ProfileScreen(modifier: Modifier = Modifier) {
 

@@ -21,6 +21,7 @@ fun BottomNavigationBar(
     modifier: Modifier = Modifier,
     navController: NavController
 ) {
+
     NavigationBar(
         modifier = modifier.height(72.dp),
         containerColor = MaterialTheme.colorScheme.primaryContainer

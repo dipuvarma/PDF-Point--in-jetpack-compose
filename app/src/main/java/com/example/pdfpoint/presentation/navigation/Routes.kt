@@ -2,59 +2,46 @@ package com.example.pdfpoint.presentation.navigation
 
 import kotlinx.serialization.Serializable
 
-@Serializable
-object Home {
-    const val route = "home"
-}
 
 @Serializable
-object AllBook {
-    const val route = "all_book"
-}
+sealed class Graph {
 
-@Serializable
-object Bookmark {
-    const val route = "bookmark"
-}
+    @Serializable
+    object Main
 
-@Serializable
-object Profile {
-    const val route = "profile"
-}
+    @Serializable
+    object Home
 
-@Serializable
-object Search {
-    const val route = "search"
-}
+    @Serializable
+    object AllBook
 
-@Serializable
-object EditProfile {
-    const val route = "edit_profile"
-}
+    @Serializable
+    object Bookmark
 
-@Serializable
-object Category {
-    const val route = "category"
-}
+    @Serializable
+    object Profile
 
-@Serializable
-data class AllBookByCategory(
-    val categoryName: String
-) {
-    companion object {
-        const val route = "all_book_by_category"
-    }
+    @Serializable
+    object Search
+
+    @Serializable
+    object EditProfile
+
+    @Serializable
+    object Category
+
+    @Serializable
+    data class AllBookByCategory(
+        val categoryName: String,
+    )
+
+    @Serializable
+    data class PdfView(
+        val bookUri: String,
+    )
 }
 
 
-@Serializable
-data class PdfView(
-    val bookUri: String
-) {
-    companion object {
-        const val route = "pdf_view"
-    }
-}
 
 
 
